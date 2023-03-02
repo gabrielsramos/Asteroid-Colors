@@ -1,0 +1,34 @@
+{
+    "name": "ShipInputAction",
+    "maps": [
+        {
+            "name": "Ship",
+            "id": "f3577053-daac-444d-9507-98b1fa2f6608",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "24a858d5-b37c-482d-acd2-173bbff1bdee",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8376fa6e-483e-43a5-8dd6-92c3e6091ddd",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
