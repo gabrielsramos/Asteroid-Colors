@@ -1,11 +1,17 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ShipBehaviour : MonoBehaviour
 {
+    [HideInInspector]
+    public Action OnLivesLost;
+    [HideInInspector]
+    public Action OnShipDestroyed;
+
+    [SerializeField] private int _flickerooRate;
+    [SerializeField] private float _invulDelay;
+    [SerializeField] private int _lives; //TODO move this to config
     [SerializeField] private float _shootingDelay = 0.3f;
     [SerializeField] private float _shipRotationSpeed = 100.0f;
     [SerializeField] private float _shipPositionSpeed = 5.0f;
@@ -13,14 +19,20 @@ public class ShipBehaviour : MonoBehaviour
     [SerializeField] private ScreenBounds _screenBounds;
     [SerializeField] private Projectile _projectilePrefab;
     [SerializeField] private Transform _positionToShootFrom;
+    [SerializeField] private SpriteRenderer _leftPropulsorSprite;
+    [SerializeField] private SpriteRenderer _rightPropulsorSprite;
 
     private ShipInputAction _actionInput;
     private Rigidbody2D _rigidBody;
+    private Color _shootingColor;
+    private bool _isInvulnerable;
+    private SpriteRenderer _sprite;
 
     private void Awake()
     {
         _actionInput = new ShipInputAction();
         _rigidBody = GetComponent<Rigidbody2D>();
+        _sprite = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -43,9 +55,55 @@ public class ShipBehaviour : MonoBehaviour
         MoveShip();
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Asteroid") && !_isInvulnerable)
+        {
+            _lives--;
+            if (_lives <= 0)
+            {
+                OnShipDestroyed?.Invoke();
+                DestroyShip();
+            }
+            else
+            {
+                OnLivesLost?.Invoke();
+                StartCoroutine(StartFlickeroo());
+            }
+        }
+    }
+
+    private void DestroyShip()
+    {
+        Destroy(gameObject);
+    }
+
+    private IEnumerator StartFlickeroo()
+    {
+        _isInvulnerable = true;
+        var transparentColor = new Color(1, 1, 1, 0);
+        float remainingTime = _invulDelay;
+        float interval = _invulDelay / (float)_flickerooRate;
+
+        while (remainingTime > 0.0f)
+        {
+            _sprite.color = transparentColor;
+            _leftPropulsorSprite.color = transparentColor;
+            _rightPropulsorSprite.color = transparentColor;
+            remainingTime -= interval;
+            yield return new WaitForSeconds(interval);
+
+            _sprite.color = Color.white;
+            _leftPropulsorSprite.color = Color.white;
+            _rightPropulsorSprite.color = Color.white;
+            remainingTime -= interval;
+            yield return new WaitForSeconds(interval);
+        }
+        _isInvulnerable = false;
+    }
+
     private void MoveShip()
     {
-        
         Vector2 direction = _actionInput.Ship.Move.ReadValue<Vector2>();
         Vector2 pointingAt = transform.up;
         float force = direction.magnitude;
@@ -58,6 +116,7 @@ public class ShipBehaviour : MonoBehaviour
         float angleBetween = Vector2.SignedAngle(pointingAt, direction);
 
         //Rotating torwards direction
+        //TODO: remove this magic number
         if (Mathf.Abs(angleBetween) > 3f)
         {
             int factor = angleBetween > 0 ? 1 : -1;
@@ -84,7 +143,7 @@ public class ShipBehaviour : MonoBehaviour
     {
         var rotation = Quaternion.Euler(new Vector3(0, 0, _rigidBody.rotation));
         var bullet = Instantiate(_projectilePrefab, _positionToShootFrom.position, rotation, transform);
-        bullet.Init(Color.cyan, _screenBounds);
+        bullet.Init(_shootingColor, _screenBounds);
     }
 
     private IEnumerator KeepShooting()
@@ -109,5 +168,10 @@ public class ShipBehaviour : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(center, center + direction.normalized);
+    }
+
+    public void SetShootingColor(Color color)
+    {
+        _shootingColor = color;
     }
 }

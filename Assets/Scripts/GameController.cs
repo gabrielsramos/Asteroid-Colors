@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    [Header("Game Configs")]
     [SerializeField] private LevelsConfig _levelsConfig;
     [SerializeField] private AsteroidsTypesConfig _asteroidsTypesConfig;
+
+    [Header("Scene References")]
     [SerializeField] private List<AsteroidSpawner> _spawners;
+    [SerializeField] private ShipBehaviour _ship;
+    [SerializeField] private UIController _uiController;
 
     private List<Asteroid> _instantiatedAsteroids;
     private int _currentLevel;
@@ -18,7 +23,38 @@ public class GameController : MonoBehaviour
         _currentLevel = 1; //TODO: implement levels logic
         _currentConfig = _levelsConfig.GetLevelConfig(_currentLevel);
 
+        ShootingColorChanged(Color.cyan);
         StartCoroutine(StartSpawning(_levelsConfig.AsteroidsDelay));
+    }
+
+    private void OnEnable()
+    {
+        _uiController.OnColorSelected += ShootingColorChanged;
+        _ship.OnLivesLost += LiveLost;
+        _ship.OnShipDestroyed += ShipWasDestroyed;
+    }
+
+    private void OnDisable()
+    {
+        _uiController.OnColorSelected -= ShootingColorChanged;
+        _ship.OnLivesLost += LiveLost;
+        _ship.OnShipDestroyed += ShipWasDestroyed;
+    }
+
+    private void LiveLost()
+    {
+        _uiController.LoseLive();
+    }
+
+    private void ShipWasDestroyed()
+    {
+        _uiController.LoseLive();
+        //TODO end phase with game over
+    }
+
+    private void ShootingColorChanged(Color color)
+    {
+        _ship.SetShootingColor(color);
     }
 
     private IEnumerator StartSpawning(float delay)
@@ -53,7 +89,7 @@ public class GameController : MonoBehaviour
     {
         var spawner = GetRandomSpawner();
         var asteroidConfig = _asteroidsTypesConfig.GetAsteroid(type);
-        var spawnedAsteroid = spawner.SpawnAsteroid(asteroidConfig.Prefab, asteroidConfig.PiecesAmount);
+        var spawnedAsteroid = spawner.SpawnAsteroid(asteroidConfig.Prefab, asteroidConfig.PiecesAmount, asteroidConfig.LivesAmount);
         _instantiatedAsteroids.Add(spawnedAsteroid);
     }
 

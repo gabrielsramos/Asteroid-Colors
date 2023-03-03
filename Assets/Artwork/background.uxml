@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Artwork/BackgroundStylesheet.uss?fileID=7433441132597879392&amp;guid=dc9f8d6ff7ea803428596a6e8c2e5934&amp;type=3#BackgroundStylesheet" />
+    <ui:VisualElement name="Background" style="background-image: url(&apos;project://database/Assets/Artwork/Sprites/gameplay%20backgorund.png?fileID=21300000&amp;guid=77edd277df9048b4c9515c9ff8726df4&amp;type=3#gameplay backgorund&apos;); width: 1920px; height: 1080px; -unity-background-scale-mode: scale-to-fit; max-width: 1920px; max-height: 1080px; min-width: 1920px; overflow: visible; flex-wrap: wrap; min-height: 1080px;" />
+</ui:UXML>

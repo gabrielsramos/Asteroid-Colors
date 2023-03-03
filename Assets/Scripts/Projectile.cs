@@ -10,16 +10,13 @@ public class Projectile : MonoBehaviour
 
     private Rigidbody2D _rigidBody;
     private ScreenBounds _screenBounds;
-    private SpriteRenderer _sprite;
-    private Color _color;
+    private Color _color = Color.cyan;
 
     public void Init(Color color, ScreenBounds screenBounds)
     {
         _color = color;
         _screenBounds = screenBounds;
-
-        _sprite = GetComponent<SpriteRenderer>();
-        _sprite.color = color;
+        GetComponent<SpriteRenderer>().color = color;
     }
 
     public Color GetColor()
@@ -30,6 +27,11 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        GetComponent<SpriteRenderer>().color = _color;
     }
 
     private void Update()

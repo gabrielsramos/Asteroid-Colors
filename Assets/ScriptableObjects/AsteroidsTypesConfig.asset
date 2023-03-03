@@ -16,9 +16,12 @@ MonoBehaviour:
   - Type: 0
     Prefab: {fileID: 2464122693577365998, guid: 1ae6dcd6f7a0f0a40bc1af084cef8cc2, type: 3}
     PiecesAmount: 0
+    LivesAmount: 1
   - Type: 1
     Prefab: {fileID: 2464122693577365998, guid: ec6a1ccbc851874478a847b774a96db3, type: 3}
     PiecesAmount: 3
+    LivesAmount: 2
   - Type: 2
     Prefab: {fileID: 2464122693577365998, guid: 5f83c8d4b44b73a46bb062bdaa0dc968, type: 3}
     PiecesAmount: 2
+    LivesAmount: 4

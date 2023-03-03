@@ -9,9 +9,6 @@ public class ScreenBounds : MonoBehaviour
 {
     public UnityEvent<Collider2D> ExitTriggerFired;
 
-    [SerializeField]
-    private float _cornerOffset = 1;
-
     private Camera _mainCamera;
     private BoxCollider2D _boxCollider;
 

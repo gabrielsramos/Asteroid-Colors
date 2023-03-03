@@ -28,4 +28,5 @@ public class AsteroidPrefabByType
     public AsteroidType Type;
     public Asteroid Prefab;
     public int PiecesAmount;
+    public int LivesAmount;
 }
