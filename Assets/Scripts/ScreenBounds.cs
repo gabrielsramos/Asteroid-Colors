@@ -41,11 +41,12 @@ public class ScreenBounds : MonoBehaviour
         ExitTriggerFired?.Invoke(collision);
     }
 
-    public bool AmIOutOfBounds(Vector3 worldPosition)
+    public bool AmIOutOfBounds(Vector3 worldPosition, float teleportOffset = 0.2f)
     {
-        return
-            Mathf.Abs(worldPosition.x) > Mathf.Abs(_boxCollider.bounds.min.x) ||
-            Mathf.Abs(worldPosition.y) > Mathf.Abs(_boxCollider.bounds.min.y);
+        return (worldPosition.x < (_boxCollider.bounds.min.x - teleportOffset)||
+               (worldPosition.x > _boxCollider.bounds.max.x + teleportOffset) ||
+               (worldPosition.y > _boxCollider.bounds.max.y + teleportOffset) ||
+               (worldPosition.y < _boxCollider.bounds.min.y - teleportOffset));
     }
 
     public Vector2 CalculateWrappedPosition(Vector2 worldPosition, float teleportOffset = 0.2f)
@@ -56,20 +57,20 @@ public class ScreenBounds : MonoBehaviour
         Vector2 resultPosition = new(worldPosition.x, worldPosition.y);
         if (worldPosition.x < (_boxCollider.bounds.min.x - teleportOffset))
         {
-            resultPosition.x = worldPosition.x + boxWidth - teleportOffset;
+            resultPosition.x = worldPosition.x + boxWidth + teleportOffset;// - teleportOffset / 10;
         }
         else if (worldPosition.x > _boxCollider.bounds.max.x + teleportOffset)
         {
-            resultPosition.x = worldPosition.x - boxWidth + teleportOffset;
+            resultPosition.x = worldPosition.x - boxWidth - teleportOffset;// + teleportOffset / 10;
         }
 
         if (worldPosition.y > _boxCollider.bounds.max.y + teleportOffset)
         {
-            resultPosition.y = worldPosition.y - boxHeight + teleportOffset;
+            resultPosition.y = worldPosition.y - boxHeight - teleportOffset;// + teleportOffset / 10;
         }
         else if (worldPosition.y < _boxCollider.bounds.min.y - teleportOffset)
         {
-            resultPosition.y = worldPosition.y + boxHeight - teleportOffset;
+            resultPosition.y = worldPosition.y + boxHeight + teleportOffset;// - teleportOffset / 10;
         }
 
         return resultPosition;

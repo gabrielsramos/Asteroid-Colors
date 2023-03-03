@@ -16,6 +16,10 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private float _damageFlickDelay = 0.1f;
     [SerializeField] private Asteroid _minorAsteroidPrefab;
 
+    [Header("Audio clips")]
+    [SerializeField] private AudioClip _asteroidHitedClip;
+    [SerializeField] private AudioClip _asteroidDestroyedClip;
+
     private Rigidbody2D _rigidBody;
     private SpriteRenderer _sprite;
     private ScreenBounds _screenBounds;
@@ -24,6 +28,7 @@ public class Asteroid : MonoBehaviour
     private int _lives;
     private Color _color;
     private int _pieces;
+    private AudioSource _audioSource;
 
     public void Init(ScreenBounds screenBounds, Vector2 direction, Color color, int pieces, int lives)
     {
@@ -40,6 +45,7 @@ public class Asteroid : MonoBehaviour
     {
         _rigidBody = GetComponent<Rigidbody2D>();
         _sprite = GetComponent<SpriteRenderer>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -67,6 +73,7 @@ public class Asteroid : MonoBehaviour
     private void CollidedWithProjectile(Collider2D collision)
     {
         var projectile = collision.gameObject.GetComponent<Projectile>();
+        _audioSource.PlayOneShot(_asteroidHitedClip);
 
         if (projectile.GetColor() == _color)
         {
@@ -92,6 +99,7 @@ public class Asteroid : MonoBehaviour
             SpawnMinorAsteroids();
         }
         OnAsteroidDestroyed?.Invoke(this);
+        _audioSource.PlayOneShot(_asteroidDestroyedClip);
         Destroy(gameObject);
     }
 

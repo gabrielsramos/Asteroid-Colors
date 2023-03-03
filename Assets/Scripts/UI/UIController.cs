@@ -25,6 +25,11 @@ public class UIController : MonoBehaviour
         _livesCounter = _hearts.Length;
     }
 
+    private void Start()
+    {
+        ChangeColor(_changeColorButtons[0]);
+    }
+
     private void OnDestroy()
     {
         foreach (ChangeColorButton button in _changeColorButtons)
