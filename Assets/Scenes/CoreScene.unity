@@ -2259,6 +2259,7 @@ MonoBehaviour:
   - {fileID: 1240163400}
   _victoryPopup: {fileID: 1740139185}
   _defeatPopup: {fileID: 635037100}
+  _levelText: {fileID: 2035922868}
 --- !u!1 &1740139185 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3381718955446202563, guid: 750bfe5d97a5cb0448cefd9cb19a4694, type: 3}

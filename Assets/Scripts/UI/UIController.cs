@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIController : MonoBehaviour
@@ -12,6 +13,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private Heart[] _hearts;
     [SerializeField] private GameObject _victoryPopup;
     [SerializeField] private GameObject _defeatPopup;
+    [SerializeField] private TextMeshProUGUI _levelText;
 
     private Color _selectedColor;
     private int _livesCounter;
@@ -54,6 +56,11 @@ public class UIController : MonoBehaviour
         }
     }
 
+    public void SetLevel(int level)
+    {
+        _levelText.text = $"Level {level}";
+    }
+
     public void LoseLive()
     {
         _hearts[_livesCounter - 1].SetFilledState(false);
@@ -62,13 +69,11 @@ public class UIController : MonoBehaviour
 
     public void ShowVictoryPopup()
     {
-        //TODO: do fancy animation
         _victoryPopup.SetActive(true);
     }
 
     public void ShowDefeatPopup()
     {
-        //TODO: do fancy animation
         _defeatPopup.SetActive(true);
     }
 }

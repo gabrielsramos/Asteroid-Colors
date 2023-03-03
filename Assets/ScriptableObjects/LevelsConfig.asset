@@ -12,24 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a00ed4549ceb4324b817ad7d90d049b5, type: 3}
   m_Name: LevelsConfig
   m_EditorClassIdentifier: 
+  AsteroidsDelay: 0
   LevelsAsteroids:
   - SmallAsteroidsAmount: 0
     MediumAsteroidsAmount: 0
     BigAsteroidsAmount: 1
-    AsteroidsPiecesAmount: 2
   - SmallAsteroidsAmount: 0
     MediumAsteroidsAmount: 0
     BigAsteroidsAmount: 2
-    AsteroidsPiecesAmount: 2
   - SmallAsteroidsAmount: 0
     MediumAsteroidsAmount: 2
     BigAsteroidsAmount: 1
-    AsteroidsPiecesAmount: 2
   - SmallAsteroidsAmount: 0
     MediumAsteroidsAmount: 2
     BigAsteroidsAmount: 2
-    AsteroidsPiecesAmount: 2
   - SmallAsteroidsAmount: 0
     MediumAsteroidsAmount: 3
     BigAsteroidsAmount: 2
-    AsteroidsPiecesAmount: 2
+  - SmallAsteroidsAmount: 0
+    MediumAsteroidsAmount: 0
+    BigAsteroidsAmount: 4
+  - SmallAsteroidsAmount: 10
+    MediumAsteroidsAmount: 0
+    BigAsteroidsAmount: 0
+  - SmallAsteroidsAmount: 2
+    MediumAsteroidsAmount: 2
+    BigAsteroidsAmount: 2
+  - SmallAsteroidsAmount: 10
+    MediumAsteroidsAmount: 1
+    BigAsteroidsAmount: 1
+  - SmallAsteroidsAmount: 0
+    MediumAsteroidsAmount: 2
+    BigAsteroidsAmount: 3
+  - SmallAsteroidsAmount: 0
+    MediumAsteroidsAmount: 0
+    BigAsteroidsAmount: 5

@@ -18,11 +18,15 @@ public class GameController : MonoBehaviour
     private AsteroidsConfigs _currentConfig;
     private bool _gameEnded;
 
+    private const string NEXT_LEVEL_KEY = "NEXT_LEVEL_KEY";
+
     private void Start()
     {
         _instantiatedAsteroids = new List<Asteroid>();
-        _currentLevel = 1; //TODO: implement levels logic
+        int nextLevel = PlayerPrefs.GetInt(NEXT_LEVEL_KEY, 1);
+        _currentLevel = nextLevel > _levelsConfig.LevelsAsteroids.Count ? _levelsConfig.LevelsAsteroids.Count : nextLevel;
         _currentConfig = _levelsConfig.GetLevelConfig(_currentLevel);
+        _uiController.SetLevel(_currentLevel);
 
         ShootingColorChanged(Color.cyan);
         StartCoroutine(StartSpawning(_levelsConfig.AsteroidsDelay));
@@ -96,6 +100,8 @@ public class GameController : MonoBehaviour
             yield return new WaitForSeconds(1f);
             if (_instantiatedAsteroids.Count == 0)
             {
+                PlayerPrefs.SetInt(NEXT_LEVEL_KEY, ++_currentLevel);
+                PlayerPrefs.Save();
                 _uiController.ShowVictoryPopup();
                 _gameEnded = true;
             }
