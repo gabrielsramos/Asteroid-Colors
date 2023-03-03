@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a00ed4549ceb4324b817ad7d90d049b5, type: 3}
+  m_Name: LevelsConfig
+  m_EditorClassIdentifier: 
+  LevelsAsteroids:
+  - SmallAsteroidsAmount: 0
+    MediumAsteroidsAmount: 0
+    BigAsteroidsAmount: 1
+    AsteroidsPiecesAmount: 2
+  - SmallAsteroidsAmount: 0
+    MediumAsteroidsAmount: 0
+    BigAsteroidsAmount: 2
+    AsteroidsPiecesAmount: 2
+  - SmallAsteroidsAmount: 0
+    MediumAsteroidsAmount: 2
+    BigAsteroidsAmount: 1
+    AsteroidsPiecesAmount: 2
+  - SmallAsteroidsAmount: 0
+    MediumAsteroidsAmount: 2
+    BigAsteroidsAmount: 2
+    AsteroidsPiecesAmount: 2
+  - SmallAsteroidsAmount: 0
+    MediumAsteroidsAmount: 3
+    BigAsteroidsAmount: 2
+    AsteroidsPiecesAmount: 2
