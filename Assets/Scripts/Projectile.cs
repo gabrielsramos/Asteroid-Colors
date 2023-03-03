@@ -34,7 +34,7 @@ public class Projectile : MonoBehaviour
         GetComponent<SpriteRenderer>().color = _color;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _rigidBody.velocity = _speed * Time.deltaTime * transform.up;
 

@@ -13,9 +13,10 @@ public class GameController : MonoBehaviour
     [SerializeField] private ShipBehaviour _ship;
     [SerializeField] private UIController _uiController;
 
-    private List<Asteroid> _instantiatedAsteroids;
+    public List<Asteroid> _instantiatedAsteroids;
     private int _currentLevel;
     private AsteroidsConfigs _currentConfig;
+    private bool _gameEnded;
 
     private void Start()
     {
@@ -48,8 +49,9 @@ public class GameController : MonoBehaviour
 
     private void ShipWasDestroyed()
     {
+        _gameEnded = true;
         _uiController.LoseLive();
-        //TODO end phase with game over
+        _uiController.ShowDefeatPopup();
     }
 
     private void ShootingColorChanged(Color color)
@@ -83,6 +85,21 @@ public class GameController : MonoBehaviour
             SpawnAsteroid(AsteroidType.BigAsteroid);
             maxBig--;
         }
+
+        yield return CheckForVictory();
+    }
+
+    private IEnumerator CheckForVictory()
+    {
+        while (!_gameEnded)
+        {
+            yield return new WaitForSeconds(1f);
+            if (_instantiatedAsteroids.Count == 0)
+            {
+                _uiController.ShowVictoryPopup();
+                _gameEnded = true;
+            }
+        }
     }
 
     private void SpawnAsteroid(AsteroidType type)
@@ -90,7 +107,23 @@ public class GameController : MonoBehaviour
         var spawner = GetRandomSpawner();
         var asteroidConfig = _asteroidsTypesConfig.GetAsteroid(type);
         var spawnedAsteroid = spawner.SpawnAsteroid(asteroidConfig.Prefab, asteroidConfig.PiecesAmount, asteroidConfig.LivesAmount);
+        spawnedAsteroid.OnMoreAsteroidsCreated += MoreAsteroidsCreated;
+        spawnedAsteroid.OnAsteroidDestroyed += AsteroidDestroyed;
         _instantiatedAsteroids.Add(spawnedAsteroid);
+    }
+
+    private void MoreAsteroidsCreated(Asteroid newAsteroid)
+    {
+        newAsteroid.OnMoreAsteroidsCreated += MoreAsteroidsCreated;
+        newAsteroid.OnAsteroidDestroyed += AsteroidDestroyed;
+        _instantiatedAsteroids.Add(newAsteroid);
+    }
+
+    private void AsteroidDestroyed(Asteroid destroyedAsteroid)
+    {
+        _instantiatedAsteroids.Remove(destroyedAsteroid);
+        destroyedAsteroid.OnMoreAsteroidsCreated -= MoreAsteroidsCreated;
+        destroyedAsteroid.OnAsteroidDestroyed -= AsteroidDestroyed;
     }
 
     private AsteroidSpawner GetRandomSpawner()

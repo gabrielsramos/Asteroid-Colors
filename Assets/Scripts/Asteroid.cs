@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Asteroid : MonoBehaviour
 {
+    [HideInInspector]
+    public Action<Asteroid> OnMoreAsteroidsCreated;
+    [HideInInspector]
+    public Action<Asteroid> OnAsteroidDestroyed;
+
     [SerializeField] private float _speed = 500f;
     [SerializeField] private float _teleportOffset = 1f;
     [SerializeField] private float _damageFlickDelay = 0.1f;
@@ -36,7 +42,7 @@ public class Asteroid : MonoBehaviour
         _sprite = GetComponent<SpriteRenderer>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         var tempPosition =_rigidBody.position + _speed * Time.deltaTime * _direction.normalized;
 
@@ -85,6 +91,7 @@ public class Asteroid : MonoBehaviour
         {
             SpawnMinorAsteroids();
         }
+        OnAsteroidDestroyed?.Invoke(this);
         Destroy(gameObject);
     }
 
@@ -92,11 +99,12 @@ public class Asteroid : MonoBehaviour
     {
         for (int i = 0; i < _pieces; i++)
         {
-            float angleRad = Random.Range(0, 2 * Mathf.PI);
+            float angleRad = UnityEngine.Random.Range(0, 2 * Mathf.PI);
             Vector2 direction = new(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
 
             var asteroid = Instantiate(_minorAsteroidPrefab, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
             asteroid.Init(_screenBounds, direction, _color, _pieces, _lives);
+            OnMoreAsteroidsCreated?.Invoke(asteroid);
         }
     }
 

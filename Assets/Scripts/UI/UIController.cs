@@ -10,6 +10,8 @@ public class UIController : MonoBehaviour
 
     [SerializeField] private List<ChangeColorButton> _changeColorButtons;
     [SerializeField] private Heart[] _hearts;
+    [SerializeField] private GameObject _victoryPopup;
+    [SerializeField] private GameObject _defeatPopup;
 
     private Color _selectedColor;
     private int _livesCounter;
@@ -51,5 +53,17 @@ public class UIController : MonoBehaviour
     {
         _hearts[_livesCounter - 1].SetFilledState(false);
         _livesCounter--;
+    }
+
+    public void ShowVictoryPopup()
+    {
+        //TODO: do fancy animation
+        _victoryPopup.SetActive(true);
+    }
+
+    public void ShowDefeatPopup()
+    {
+        //TODO: do fancy animation
+        _defeatPopup.SetActive(true);
     }
 }

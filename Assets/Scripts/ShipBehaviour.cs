@@ -50,7 +50,7 @@ public class ShipBehaviour : MonoBehaviour
         _actionInput.Ship.Disable();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         MoveShip();
     }
