@@ -34,8 +34,7 @@ public class Asteroid : MonoBehaviour
         _rigidBody = GetComponent<Rigidbody2D>();
         _sprite = GetComponent<SpriteRenderer>();
 
-        _colorIndex = 1; Random.Range(0, _possibleColors.Length);
-        _sprite.color = _possibleColors[_colorIndex];
+        _sprite.color = ColorsRandomizer.GetRandomColor();
     }
 
     private void Update()

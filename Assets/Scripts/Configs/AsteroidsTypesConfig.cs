@@ -7,13 +7,13 @@ public class AsteroidsTypesConfig : ScriptableObject
 {
     public List<AsteroidPrefabByType> AsteroidsTypes;
 
-    public Asteroid GetAsteroid(AsteroidType type)
+    public AsteroidPrefabByType GetAsteroid(AsteroidType type)
     {
         foreach (AsteroidPrefabByType asteroidPrefabByType in AsteroidsTypes)
         {
             if (asteroidPrefabByType.Type == type)
             {
-                return asteroidPrefabByType.Prefab;
+                return asteroidPrefabByType;
             }
         }
 
@@ -27,4 +27,5 @@ public class AsteroidPrefabByType
 {
     public AsteroidType Type;
     public Asteroid Prefab;
+    public int PiecesAmount;
 }

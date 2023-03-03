@@ -19,10 +19,11 @@ public class AsteroidSpawner : MonoBehaviour
         }
     }
 
-    public void SpawnAsteroid(Asteroid asteroidPrefab, int piecesAmount)
+    public Asteroid SpawnAsteroid(Asteroid asteroidPrefab, int piecesAmount)
     {
         int directionIndex = Random.Range(0, _spawnDirections.Count);
         var asteroid = Instantiate(asteroidPrefab, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
         asteroid.Init(_screenBounds, _spawnDirections[directionIndex], piecesAmount);
+        return asteroid;
     }
 }
